@@ -1,16 +1,10 @@
 import os
 import requests
 
-def create_record(fields):
-    token = os.getenv("O6TtbrlFEaxdxwscAAZuRMZnsBb")
-    url = "https://open.feishu.cn/open-apis/bitable/v1/apps/O6TtbrlFEaxdxwscAAZuRMZnsBb/tables/tbl12nnf1XtAdOcR/records"
-
-    headers = {
-        "Authorization": f"Bearer {token}",
-        "Content-Type": "application/json"
-    }
-
-    data = { "fields": fields }
-
-    response = requests.post(url, headers=headers, json=data)
-    print("Bitable API response:", response.json())
+def get_tenant_access_token():
+    app_id = os.environ.get("cli_a8efc5c01310100e")
+    app_secret = os.environ.get("APP_SECRET")  # You'll need to define this in Replit Secrets
+    url = "https://open.feishu.cn/open-apis/auth/v3/tenant_access_token/internal/"
+    payload = {"app_id": app_id, "app_secret": app_secret}
+    res = requests.post(url, json=payload)
+    return res.json().get("tenant_access_token")
